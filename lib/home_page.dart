@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:place_finder_mvvm/models/place.dart';
 import 'package:place_finder_mvvm/view_models/place_list_view_model.dart';
-import 'package:place_finder_mvvm/view_models/place_view_model.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,13 +31,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Set<Marker> _getPlaceMarkers(List<PlaceViewModel> places) {
+  Set<Marker> _getNearbyMarkers(List<Place> places) {
     return places
         .map((place) => Marker(
               markerId: MarkerId(place.placeId),
               icon: BitmapDescriptor.defaultMarker,
               infoWindow: InfoWindow(title: place.name),
-              position: LatLng(place.latitude, place.longitude),
+              position: LatLng(place.lat, place.long),
             ))
         .toSet();
   }
@@ -51,7 +49,7 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           GoogleMap(
-            markers: _getPlaceMarkers(vm.places),
+            markers: _getNearbyMarkers(vm.places),
             myLocationEnabled: true,
             onMapCreated: _onMapCreated,
             initialCameraPosition: const CameraPosition(
