@@ -1,9 +1,10 @@
+
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:place_finder_mvvm/models/place.dart';
 
-class WebService {
+class ApiService {
   Future<List<Place>> fetchPlacesByKeywordAndPosition(
       {required String keyword,
       required double lat,
